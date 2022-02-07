@@ -8,8 +8,11 @@
 <script src="./threejs/three.min.js"></script>
 <script src="./threejs/OrbitControls.js"></script>
 <script src="./threejs/ViewHelper.js"></script>
+<script src="./proj4js/proj4.js"></script>
 <script src="./Qgis2threejs.js"></script>
 <script src="./threejs/loaders/ColladaLoader.js"></script>
+<script src="./dat-gui/dat.gui.min.js"></script>
+<script src="./dat-gui_panel.js"></script>
 </head>
 <body>
 <div id="view">
@@ -75,7 +78,8 @@
       <h1>About</h1>
       <div id="about">
         This page was made with <a href="https://www.qgis.org/" target="_blank">QGIS</a> and <a href="https://github.com/minorua/Qgis2threejs" target="_blank">Qgis2threejs</a> plugin (version 2.6).
-        <div>Powered by <a href="https://threejs.org/" target="_blank">three.js</a>
+        <div>Powered by <a href="https://threejs.org/" target="_blank">three.js</a>,
+        <a href="https://code.google.com/p/dat-gui/" target="_blank">dat-gui</a>
         <span id="lib_proj4js"> and <a href="https://trac.osgeo.org/proj4js/" target="_blank">Proj4js</a></span>.</div>
       </div>
     </div>
@@ -87,29 +91,37 @@
 
 <!-- header and footer -->
 <div id="header"></div>
-<div id="footer"><span id="infobtn"><img src="./Qgis2threejs.png"></span> </div>
+<div id="footer"></div>
 
 <script>
-Q3D.Config.allVisible = true;
 Q3D.Config.autoZShift = true;
+Q3D.Config.coord.latlon = true;
 Q3D.Config.localMode = true;
 if (typeof proj4 === "undefined") document.getElementById("lib_proj4js").style.display = "none";
 
 var container = document.getElementById("view"),
-    app = Q3D.application;
+    app = Q3D.application,
+    gui = Q3D.gui;
 
-app.init(container);       // initialize viewer
+app.init(container);    // initialize viewer
+gui.init();             // initialize dat-gui panel
 
 // load the scene
 app.loadSceneFile("./data/index/scene.js", function (scene) {
   // scene file has been loaded
   app.start();
+
+  gui.initLayersFolder(scene);
+
 }, function (scene) {
   // all relevant files have been loaded
 
-});
+  // custom plane z range
+  var zMin = undefined,
+      zMax = undefined;
+  gui.initCustomPlaneFolder(zMin, zMax);
 
-document.getElementById("infobtn").onclick = app.showInfo;
+});
 </script>
 </body>
 </html>
