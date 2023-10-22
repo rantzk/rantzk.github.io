@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <link rel="shortcut icon" href="#" />
+    <title>Stand With Israel BaseMap</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #logoContainer {
+                position: absolute;
+                z-index: 100;
+                bottom: 10px;
+                left: 1%;
+            }
+        #FlagContainer {
+            position: absolute;
+            z-index: 100;
+            top: 10px;
+            right: 1%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map">
+        <div id="logoContainer">
+            <a href="https://mikoom.io/" target="_blank" rel="noopener noreferrer">
+                <img src="images/MIKOOM_line.svg" alt="Mikoom.io" width="100">
+            </a>
+        </div>
+        <div id="FlagContainer">
+            <img src="images/Flag_of_Israel.svg" alt="Stand with Israel" width="200">
+            <h1 style="color:#0038b8;text-shadow: 0 0 15px white;">Stand with Israel</h1>
+        </div>
+    </div>
+    <script>
+        var map = new maplibregl.Map({
+            container: 'map',
+            style: 'style/osm_Israel.json',
+            center: [34.83103, 31.476],
+            zoom: 6
+        });
+
+        // Add navigation control
+             
+        var nav = new maplibregl.NavigationControl();
+                map.addControl(nav, 'top-left');
+    </script>
+</body>
+</html>
